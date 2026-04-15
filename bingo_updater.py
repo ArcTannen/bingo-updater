@@ -1,11 +1,11 @@
 from PIL import Image, ImageDraw, ImageFont
 
 
-X_MIN, Y_MIN = 192, 256
-X_MAX, Y_MAX = 843, 907
+X_MIN, Y_MIN = 601, 41
+X_MAX, Y_MAX = 1237, 677
 BORDER = 6
 RADIUS = 24
-CELL_SIZE = int((X_MAX - X_MIN - 6*BORDER) / 5) - 1
+CELL_SIZE = int((X_MAX - X_MIN - 6*BORDER) / 5)
 
 CELL_COLOR = (50, 205, 50, 255)  # 'LimeGreen'
 BORDER_COLOR = (0, 100, 0, 255)  # 'DarkGreen'
@@ -45,6 +45,7 @@ def draw_text(board, row, col, list_text):
     x0 += padding
     y0 += padding
 
+    # TODO: Handle wrapping & columns for text overflow.
     draw.multiline_text((x0+1, y0+1), list_text, SHADOW_COLOR, FONT)
     draw.multiline_text((x0, y0), list_text, FONT_COLOR, FONT)
 
@@ -76,15 +77,6 @@ def get_coords(row, col):
     y0 = Y_MIN + (row+1)*BORDER + row*CELL_SIZE
     x1 = X_MIN + (col+1)*BORDER + (col+1)*CELL_SIZE
     y1 = Y_MIN + (row+1)*BORDER + (row+1)*CELL_SIZE
-    # fix for uneven cell sizes
-    if col > 2:
-        x1 += 6
-    if col > 3:
-        x0 += 6
-    if row > 2:
-        y1 += 1
-    if row > 3:
-        y1 += 2
 
     return [x0, y0, x1, y1]
 
